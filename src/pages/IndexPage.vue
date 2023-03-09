@@ -1,5 +1,4 @@
 <template>
-  <p class="text-black text-h1">Faisal</p>
   <div>
     <div style="display: flex; justify-content: space-between">
       <ShowCard title="IN" :num="InVal" />
