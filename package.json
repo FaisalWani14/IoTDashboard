@@ -14,6 +14,7 @@
     "@quasar/cli": "^2.0.0",
     "@quasar/extras": "^1.0.0",
     "@vueuse/core": "^9.13.0",
+    "apexcharts": "^3.37.1",
     "axios": "^0.21.1",
     "bourbon": "^7.3.0",
     "core-js": "^3.6.5",
@@ -27,7 +28,8 @@
     "vue": "^3.2.47",
     "vue-mqtt": "^2.0.3",
     "vue-resource": "^1.5.3",
-    "vue-router": "^4.0.0"
+    "vue-router": "^4.0.0",
+    "vue3-apexcharts": "^1.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",

@@ -2,25 +2,33 @@
   <p class="text-black text-h1">yasu</p>
   <div>
     <div style="display: flex; justify-content: space-between">
-      <ShowCard title="IN" :num="InVal" />
-      <ShowCard title="OUT" :num="OutVal" />
-      <ShowCard title="Current" :num="NetVal" />
+      <ShowCard title="IN" :num="visitor.InVal" />
+      <ShowCard title="OUT" :num="visitor.OutVal" />
+      <ShowCard title="Current" :num="visitor.NetVal" />
+    </div>
+    <div class="chart-wrapper">
+      <ApexChart
+        width="800"
+        type="area"
+        :options="CurrentChart.options"
+        :series="CurrentChart.series"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import ShowCard from "../components/ShowCard.vue";
-import { onMounted } from "vue";
 import { defineComponent } from "vue";
 import * as mqtt from "mqtt/dist/mqtt";
+import ApexChart from "vue3-apexcharts";
 
-let InVal = 0;
-let OutVal = 0;
-let NetVal = InVal - OutVal;
-
-export default {
-  components: { ShowCard },
+export default defineComponent({
+  name: "IndexPage",
+  components: {
+    ShowCard,
+    ApexChart,
+  },
   created() {
     const clientId = "mqttjs_" + Math.random().toString(8);
     const host = "ws://broker.hivemq.com:8000/mqtt";
@@ -35,29 +43,60 @@ export default {
         this.client.on("message", (topic, message) => {
           const msg = message.toString();
           if (topic == "/project/laser/in") {
-            this.InVal = parseInt(msg);
-            console.log("IN: " + this.InVal);
+            this.visitor.InVal = parseInt(msg);
+            console.log("IN: " + this.visitor.InVal);
           } else if (topic == "/project/laser/out") {
-            this.OutVal = parseInt(msg);
-            console.log("Out: " + this.OutVal);
+            this.visitor.OutVal = parseInt(msg);
+            console.log("Out: " + this.visitor.OutVal);
           }
-          this.NetVal = this.InVal - this.OutVal;
+          this.visitor.NetVal = this.visitor.InVal - this.visitor.OutVal;
         });
       }
     });
+    setInterval(() => {
+      this.CurrentChart.options.xaxis.categories.push(Date.now());
+      this.CurrentChart.options.xaxis.categories =
+        this.CurrentChart.options.xaxis.categories.slice(-24);
+      this.CurrentChart.series[0].data.push(this.visitor.InVal);
+      this.CurrentChart.series[0].data =
+        this.CurrentChart.series[0].data.slice(-24);
+    }, 20000);
   },
   data() {
     return {
       client: null,
-      arr: [{ title: "IN" }, { title: "OUT" }, { title: "Current" }],
-      InVal: 0,
-      OutVal: 0,
-      NetVal: 0,
+      visitor: {
+        InVal: 0,
+        OutVal: 0,
+        NetVal: 0,
+      },
+      CurrentChart: {
+        options: {
+          chart: {
+            id: "current",
+          },
+          xaxis: {
+            categories: [],
+          },
+          colors: ["#26a69a"],
+        },
+        series: [
+          {
+            name: "time",
+            data: [],
+          },
+        ],
+      },
     };
   },
-};
+});
 </script>
 
-<style>
+<style scoped>
 @import url("./style.css");
+div.chart-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>
