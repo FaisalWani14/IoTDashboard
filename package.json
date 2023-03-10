@@ -26,6 +26,7 @@
     "url": "^0.11.0",
     "util": "^0.12.5",
     "vue": "^3.2.47",
+    "vue-apexcharts": "^1.6.2",
     "vue-mqtt": "^2.0.3",
     "vue-resource": "^1.5.3",
     "vue-router": "^4.0.0",
