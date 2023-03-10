@@ -57,10 +57,10 @@ export default defineComponent({
       this.CurrentChart.options.xaxis.categories.push(Date.now());
       this.CurrentChart.options.xaxis.categories =
         this.CurrentChart.options.xaxis.categories.slice(-24);
-      this.CurrentChart.series[0].data.push(this.visitor.InVal);
+      this.CurrentChart.series[0].data.push(this.visitor.NetVal);
       this.CurrentChart.series[0].data =
         this.CurrentChart.series[0].data.slice(-24);
-    }, 20000);
+    }, 10000);
   },
   data() {
     return {
