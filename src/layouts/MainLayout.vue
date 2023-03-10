@@ -23,7 +23,7 @@
             justify-content: space-between;
           "
         >
-          <q-toolbar-title class="banner_text" @onClick="clicked()">
+          <q-toolbar-title class="banner_text" @click="clicked">
             Laser counter</q-toolbar-title
           >
           <q-btn-toggle
@@ -33,7 +33,7 @@
             stretch
             toggle-color="white"
             :options="options"
-            @click="reDir(options.link)"
+            @click="reDir(model)"
           />
         </div>
       </q-toolbar>
@@ -51,23 +51,19 @@ export default {
   data() {
     return {
       model: "",
-      selected: "",
-      in: 0,
-      out: 0,
-      net: 0,
       options: [
-        { label: "In", value: "one", link: "/InPage" },
-        { label: "Out", value: "two", link: "/OutPage" },
-        { label: "Current", value: "three", link: "/NetPage" },
+        { label: "In", value: "/InPage" },
+        { label: "Out", value: "/OutPage" },
+        { label: "Current", value: "/NetPage" },
       ],
     };
   },
   methods: {
     clicked() {
-      this.$router.push("/t");
+      this.$router.push("/");
     },
     reDir(page) {
-      console.log(page);
+      this.$router.push(page);
     },
   },
 };
