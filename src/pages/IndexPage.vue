@@ -56,11 +56,11 @@ export default defineComponent({
     setInterval(() => {
       this.CurrentChart.options.xaxis.categories.push(Date.now());
       this.CurrentChart.options.xaxis.categories =
-        this.CurrentChart.options.xaxis.categories.slice(-24);
-      this.CurrentChart.series[0].data.push(this.visitor.InVal);
+        this.CurrentChart.options.xaxis.categories.slice(-10);
+      this.CurrentChart.series[0].data.push(this.visitor.NetVal);
       this.CurrentChart.series[0].data =
-        this.CurrentChart.series[0].data.slice(-24);
-    }, 20000);
+        this.CurrentChart.series[0].data.slice(-10);
+    }, 10000);
   },
   data() {
     return {
@@ -76,7 +76,18 @@ export default defineComponent({
             id: "current",
           },
           xaxis: {
-            categories: [],
+            categories: [
+              "9AM",
+              "10AM",
+              "11AM",
+              "12AM",
+              "1PM",
+              "2PM",
+              "3PM",
+              "4PM",
+              "5PM",
+              "6PM",
+            ],
           },
           colors: ["#26a69a"],
         },
